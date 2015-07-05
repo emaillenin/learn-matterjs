@@ -11,8 +11,8 @@ $(function () {
     var engine = Engine.create(document.body, {world: {gravity: {x: 0, y: 0}}});
 
 // create two boxes and a ground
-    var boxA = Bodies.circle(400, 300, 40, {slop: 0.8});
-    var boxB = Bodies.circle(450, 150, 40, {slop: 0.8});
+    var boxA = Bodies.circle(400, 300, 30, {slop: 0.8});
+    var boxB = Bodies.circle(450, 150, 30, {slop: 0.8});
     var ground1 = Bodies.rectangle(0, 0, 1610, 60, {isStatic: true});
     var ground2 = Bodies.rectangle(0, 610, 1610, 60, {isStatic: true});
     var ground3 = Bodies.rectangle(0, 0, 60, 1610, {isStatic: true});
@@ -22,21 +22,23 @@ $(function () {
     //engine.world.bounds.max.y = 800;
 
 // add all of the bodies to the world
-    World.add(engine.world, [boxA, ground1, ground2, ground3, ground4]);
+    World.add(engine.world, [boxA, boxB, ground1, ground2, ground3, ground4]);
 
     Events.on(engine, 'collisionStart collisionActive collisionEnd', function (event) {
-        console.log(event.pairs);
+        //console.log(event);
     });
 
+    Events.on(engine, 'afterTick', function(event) {
+        var forceMagnitudeTmp1 = 0.0004 * boxB.mass;
+
+        Body.applyForce(boxB, { x: 0, y: 0 }, {
+            x: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * Common.choose([1, -1]),
+            y: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * Common.choose([1, -1])
+        });
+
+    });
 // run the engine
     Engine.run(engine);
-
-    var forceMagnitudeTmp = 0.04 * boxB.mass;
-
-    Body.applyForce(boxB, { x: 0, y: 0 }, {
-        x: (forceMagnitudeTmp + Common.random() * forceMagnitudeTmp) * Common.choose([1, -1]),
-        y: -forceMagnitudeTmp + Common.random() * -forceMagnitudeTmp
-    });
 
     var $body = $('body');
     $body.on('keydown', function (e) {
