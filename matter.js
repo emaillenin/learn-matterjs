@@ -7244,8 +7244,8 @@ var Render = {};
             element: null,
             canvas: null,
             options: {
-                width: 800,
-                height: 600,
+                width: 1200,
+                height: 800,
                 pixelRatio: 1,
                 background: '#fafafa',
                 wireframeBackground: '#222',
