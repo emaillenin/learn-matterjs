@@ -11,8 +11,8 @@ $(function () {
     var engine = Engine.create(document.body, {world: {gravity: {x: 0, y: 0}}});
 
 // create two boxes and a ground
-    var boxA = Bodies.circle(400, 300, 30, {slop: 0.8});
-    var boxB = Bodies.circle(450, 150, 30, {slop: 0.8});
+    var boxA = Bodies.circle(200, 600, 30, {slop: 0.8});
+    var boxB = Bodies.circle(750, 150, 30, {slop: 0.8});
     var ground1 = Bodies.rectangle(0, 0, 1610, 60, {isStatic: true});
     var ground2 = Bodies.rectangle(0, 610, 1610, 60, {isStatic: true});
     var ground3 = Bodies.rectangle(0, 0, 60, 1610, {isStatic: true});
@@ -29,11 +29,11 @@ $(function () {
     });
 
     Events.on(engine, 'afterTick', function(event) {
-        var forceMagnitudeTmp1 = 0.0004 * boxB.mass;
+        var forceMagnitudeTmp1 = 0.00008 * boxB.mass;
 
         Body.applyForce(boxB, { x: 0, y: 0 }, {
-            x: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * Common.choose([1, -1]),
-            y: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * Common.choose([1, -1])
+            x: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * (boxA.position.x > boxB.position.x ? 1 : -1),
+            y: (forceMagnitudeTmp1 + Common.random() * forceMagnitudeTmp1) * (boxA.position.y > boxB.position.y ? 1 : -1)
         });
 
     });
