@@ -22,9 +22,9 @@ $(function () {
     //engine.world.bounds.max.y = 800;
 
 // add all of the bodies to the world
-    World.add(engine.world, [boxA, boxB, ground1, ground2, ground3, ground4]);
+    World.add(engine.world, [boxA, ground1, ground2, ground3, ground4]);
 
-    Events.on(engine, 'collisionStart', function (event) {
+    Events.on(engine, 'collisionStart collisionActive collisionEnd', function (event) {
         console.log(event.pairs);
     });
 
